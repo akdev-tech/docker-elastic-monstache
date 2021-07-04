@@ -25,3 +25,14 @@ services:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - 5601:5601
+
+  monstache_container_name:        
+    image: rwynn/monstache:latest        
+    container_name: container_name       
+    working_dir: /monstache        
+    command: -f ./config.toml        
+    volumes:          
+        - ./monstache:/monstache/        
+    ports:          
+        - "8080:8080"        
+    restart: always       
