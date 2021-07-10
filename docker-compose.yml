@@ -3,10 +3,9 @@ version: '3.9'
 services:
   mongodb:
     image: mongo
+    container_name: mongodb
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+    env_file: .env
     volumes:
       - ./mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
 
@@ -23,6 +22,7 @@ services:
   
   kibana:
     image: kibana:7.8.1
+    container_name: kibana
     volumes:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
@@ -30,7 +30,7 @@ services:
 
   monstache:        
     image: rwynn/monstache:latest        
-    container_name: container_name       
+    container_name: monstache       
     working_dir: /monstache        
     command: -f ./config.toml        
     volumes:          
