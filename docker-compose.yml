@@ -8,6 +8,8 @@ services:
     env_file: .env
     volumes:
       - ./mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - db
 
   elasticsearch:
     container_name: elasticsearch
@@ -23,6 +25,8 @@ services:
       - type: volume
         source: elasticsearchdata
         target: /usr/share/elasticsearch/data
+    networks:
+      - elk
   
   kibana:
     image: kibana:7.8.1
@@ -39,17 +43,28 @@ services:
     env_file: .env
     ports:
       - "5601:5601"
+    networks:
+      - elk
 
   monstache:        
-    image: rwynn/monstache:latest        
-    container_name: monstache       
-    working_dir: /monstache        
-    command: -f /config.toml
+    image: rwynn/monstache:latest
+    container_name: monstache
+    # command: -f /config.toml
+    command: tail -F anything
     volumes:          
       - ./monstachedata:/monstache/
       - type: bind
         source: ./monstache/config.toml
         target: /config.toml
-        read_only: true      
-    ports:          
-      - "8080:8080"     
+        read_only: true
+    ports:
+      - "8080:8080"
+    networks:
+      - db
+      - elk
+
+networks:
+  db:
+    driver: bridge
+  elk:
+    driver: bridge
