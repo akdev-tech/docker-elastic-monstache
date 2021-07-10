@@ -8,6 +8,7 @@ services:
     env_file: .env
     volumes:
       - ./mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - mongodbdata:/data/db
     networks:
       - db
 
@@ -54,7 +55,7 @@ services:
     # command: -f /config.toml
     command: tail -F anything
     volumes:          
-      - ./monstachedata:/monstache/
+      - monstachedata:/monstache/
       - type: bind
         source: ./monstache/config.toml
         target: /config.toml
@@ -73,3 +74,8 @@ networks:
     driver: bridge
   elk:
     driver: bridge
+
+volumes:
+  mongodbdata:
+  elasticsearchdata:
+  monstachedata:
