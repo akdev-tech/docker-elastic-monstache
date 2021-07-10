@@ -36,9 +36,12 @@ services:
     image: rwynn/monstache:latest        
     container_name: monstache       
     working_dir: /monstache        
-    command: -f ./config.toml        
+    command: -f /config.toml
     volumes:          
-      - ./monstache:/monstache/        
+      - ./monstachedata:/monstache/
+      - type: bind
+        source: ./monstache/config.toml
+        target: /config.toml
+        read_only: true      
     ports:          
-      - "8080:8080"        
-    restart: always       
+      - "8080:8080"     
