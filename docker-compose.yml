@@ -5,10 +5,12 @@ services:
     image: mongo
     container_name: mongodb
     restart: always
-    env_file: .env
+    ports:
+      - 27017:27017
     volumes:
       - ./mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - mongodbdata:/data/db
+    env_file: .env
     networks:
       - db
 
@@ -18,6 +20,9 @@ services:
       context: elasticsearch/
       args:
         ELK_VERSION: $ELK_VERSION
+    ports:
+      - 9200:9200
+      - 9300:9300
     volumes:
       - type: bind
         source: ./elasticsearch/config/elasticsearch.yml
@@ -26,6 +31,7 @@ services:
       - type: volume
         source: elasticsearchdata
         target: /usr/share/elasticsearch/data
+    env_file: .env
     networks:
       - elk
   
@@ -36,14 +42,14 @@ services:
       context: kibana/
       args:
         ELK_VERSION: $ELK_VERSION
+    ports:
+      - 5601:5601
     volumes:
       - type: bind
         source: ./kibana/config/kibana.yml
         target: /usr/share/kibana/config/kibana.yml
         read_only: true
     env_file: .env
-    ports:
-      - "5601:5601"
     networks:
       - elk
     depends_on:
