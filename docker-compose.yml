@@ -27,10 +27,18 @@ services:
   kibana:
     image: kibana:7.8.1
     container_name: kibana
+    build:
+      context: kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
     volumes:
-      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+      - type: bind
+        source: ./kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+    env_file: .env
     ports:
-      - 5601:5601
+      - "5601:5601"
 
   monstache:        
     image: rwynn/monstache:latest        
