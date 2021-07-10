@@ -45,6 +45,8 @@ services:
       - "5601:5601"
     networks:
       - elk
+    depends_on:
+      - elasticsearch
 
   monstache:        
     image: rwynn/monstache:latest
@@ -62,6 +64,9 @@ services:
     networks:
       - db
       - elk
+    depends_on:
+      - elasticsearch
+      - mongodb
 
 networks:
   db:
