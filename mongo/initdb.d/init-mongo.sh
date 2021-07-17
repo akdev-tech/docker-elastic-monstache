@@ -1,4 +1,6 @@
-db.createUser({
+
+mongosh <<EOF
+  db.createUser({
     user: 'root',
     pwd: 'toor',
     roles: [
@@ -8,3 +10,5 @@ db.createUser({
       },
     ],
   });
+EOF
+
