@@ -15,6 +15,7 @@ services:
       - db
 
   elasticsearch:
+    env_file: .env
     container_name: elasticsearch
     build:
       context: elasticsearch/
@@ -31,11 +32,11 @@ services:
       - type: volume
         source: elasticsearchdata
         target: /usr/share/elasticsearch/data
-    env_file: .env
     networks:
       - elk
   
   kibana:
+    env_file: .env
     image: kibana:7.8.1
     container_name: kibana
     build:
@@ -49,13 +50,13 @@ services:
         source: ./kibana/config/kibana.yml
         target: /usr/share/kibana/config/kibana.yml
         read_only: true
-    env_file: .env
     networks:
       - elk
     depends_on:
       - elasticsearch
 
-  monstache:        
+  monstache:
+    env_file: .env
     image: rwynn/monstache:latest
     container_name: monstache
     # command: -f /config.toml
