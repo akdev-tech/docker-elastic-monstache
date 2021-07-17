@@ -1,14 +1,14 @@
+set -e
 
 mongosh <<EOF
-  db.createUser({
-    user: 'root',
-    pwd: 'toor',
-    roles: [
-      {
-        role: 'readWrite',
-        db: 'testDB',
-      },
-    ],
-  });
-EOF
+    use admin;
 
+    db.createUser({
+        user: '$MONGO_INITDB_USER',
+        pwd: '$MONGO_INITDB_PWD',
+        roles: [{
+            role: 'readWrite',
+            db: 'admin'
+        }]
+    })
+EOF
