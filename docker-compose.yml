@@ -6,6 +6,11 @@ services:
     container_name: mongodb
     command: ["--replSet", "${MONGO_REPLSET_NAME}", "--port", "${MONGO_PORT}", "--keyFile", "/data/key.file"]
     restart: always
+    healthcheck:
+      test: |
+        test $$(sh /data/init-replicaSet.sh) -eq 1
+      interval: 10s
+      start_period: 30s
     ports:
       - 27017:${MONGO_PORT}
     volumes:
