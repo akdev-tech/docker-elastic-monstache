@@ -10,6 +10,7 @@ services:
       - 27017:${MONGO_PORT}
     volumes:
       - ./mongo/initdb.d/:/docker-entrypoint-initdb.d/
+      - ./mongo/key.file:/data/key.file:ro
       - mongodbdata:/data/db
     env_file: .env
     networks:
