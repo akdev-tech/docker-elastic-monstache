@@ -1,11 +1,11 @@
 set -e
 
-mongosh --quiet --norc  --eval <<EOF
+mongosh --quiet --norc "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}" --eval <<EOF
     try {
         rs.initiate({
-            _id: 'dbrs',
+            _id: '$MONGO_REPLSET_NAME',
             members: [
-                { _id: 0, host: 'mongodb' }
+                { _id: 0, host: '$MONGO_HOSTNAME' }
             ]
         }, { force: true });
     } catch (e) {
