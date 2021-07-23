@@ -10,7 +10,7 @@ services:
       test: |
         test $$(sh /data/init-replicaSet.sh) -eq 1
       interval: 10s
-      start_period: 30s
+      start_period: 20s
     ports:
       - 27017:${MONGO_PORT}
     volumes:
@@ -70,7 +70,7 @@ services:
     environment:
       - MONSTACHE_ES_USER=${ELASTIC_USER}
       - MONSTACHE_ES_PASS=${ELASTIC_PASSWORD}
-      - MONSTACHE_MONGO_URL=mongodb://${MONGO_INITDB_USER}:${MONGO_INITDB_PWD}@mongodb:${MONGO_PORT}
+      - MONSTACHE_MONGO_URL=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:${MONGO_PORT}
     image: rwynn/monstache:latest
     container_name: monstache
     # command: -f /config.toml
