@@ -45,6 +45,8 @@ services:
   
   kibana:
     env_file: .env
+    environment:
+      - ELASTICSEARCH_HOSTS=http://${ELASTIC_USER}:${ELASTIC_PASSWORD}@elasticsearch:9200
     image: kibana:7.8.1
     container_name: kibana
     build:
